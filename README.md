@@ -33,6 +33,7 @@ tar -x --to-command='iconv.sh CP437 UTF-8' -f archive.tar
 tar](https://www.gnu.org/software/tar/) 1.27+
 * [GNU Bash](https://www.gnu.org/software/bash/)
 * `iconv` from [GNU iconv](https://www.gnu.org/software/libiconv/)
+* `touch` from [GNU coreutils](https://www.gnu.org/software/coreutils/)
 
 ## Caveats and limitations
 
