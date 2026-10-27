@@ -24,7 +24,7 @@ known to [`libiconv`](https://www.gnu.org/software/libiconv/).
 Example:
 
 ```
-tar -x --to-command='iconv.sh CP437 UTF-8' -f archive.tar
+tar -x --to-command='iconv.sh ISO-8859-1 UTF-8' -f archive.tar
 ```
 
 ## System requirements
@@ -46,7 +46,7 @@ profile) for tar that may prevent it from (directly) running
 line as the argument to `bash`:
 
 ```
-tar -x --to-command='bash iconv.sh CP437 UTF-8' -f archive.tar
+tar -x --to-command='bash iconv.sh ISO-8859-1 UTF-8' -f archive.tar
 ```
 
 ### Metadata
@@ -59,6 +59,22 @@ contains file metadata, but there are various options to GNU tar, such
 as `--group`, `--atime-preserve`, etc. that can be used to override
 it.)  `iconv.sh` blindly attempts to apply whatever metadata GNU tar
 passes it.
+
+### File contents not converted
+
+Note that `iconv.sh` converts the character encoding only in the
+filenames, not the file contents.  If a given file has contents that
+are encoded in `FROM-ENCODING`, and these contents refer to the name
+of some (other) file in the archive, then this reference may no longer
+be valid if `iconv.sh` ends up renaming the referent file's name
+according to `TO-ENCODING`.  For example, if the archive contains an
+ISO-8859-1-encoded HTML file `index.html` that hyperlinks to some
+other file in the archive named `café.html` (e.g., via `<a
+href="café.html">…</a>`), then this link will no longer point to
+`café.html` if `iconv.sh` ends up converting the filenames to, say,
+UTF-8.  If you need to change the character encoding of the contents
+of (certain) files, then you should run `iconv` on them after
+extraction.
 
 ## Alternatives
 
